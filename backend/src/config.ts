@@ -1,4 +1,5 @@
 import { CookieOptions } from 'express'
+import { CorsOptions } from 'cors';
 import ms from 'ms'
 
 export const { PORT = '3000' } = process.env
@@ -22,3 +23,6 @@ export const REFRESH_TOKEN = {
         } as CookieOptions,
     },
 }
+export const ORIGIN_ALLOW = process.env.ORIGIN_ALLOW || 'http://localhost:3000';
+
+export const CORS_CONFIG = { origin: ORIGIN_ALLOW, credentials: true } as CorsOptions;
