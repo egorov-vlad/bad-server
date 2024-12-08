@@ -21,6 +21,5 @@ const sanitizeObject = (obj: any): any => {
 
 export const sanitizeMiddleware = (req: Request, _res: Response, next: NextFunction) => {
     req.body = sanitizeObject(req.body);
-    console.log(req.body);
     return next();
 };

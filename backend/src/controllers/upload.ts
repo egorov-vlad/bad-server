@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from 'express'
 import { constants } from 'http2'
 import { UPLOAD_PATH } from '../config';
 import BadRequestError from '../errors/bad-request-error'
-import InternalError from '../errors/internal-error'
 
 export const uploadFile = async (
     req: Request,
@@ -19,7 +18,7 @@ export const uploadFile = async (
             originalName: req.file?.originalname,
         })
     } catch (error) {
-        return next(new InternalError())
+        return next(error)
     }
 }
 
