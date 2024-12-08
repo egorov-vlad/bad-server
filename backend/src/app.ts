@@ -4,23 +4,32 @@ import cors from 'cors'
 // import 'dotenv/config'
 import express, { json, urlencoded } from 'express'
 import mongoose from 'mongoose'
+import { rateLimit } from 'express-rate-limit';
 import path from 'path'
 import { DB_ADDRESS, CORS_CONFIG, PORT } from './config'
 import errorHandler from './middlewares/error-handler'
-import serveStatic from './middlewares/serverStatic'
+// import serveStatic from './middlewares/serverStatic'
 import routes from './routes'
 
 const app = express()
 
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 100, 
+    message: 'Too many requests from this IP, please try again after 15 minutes',
+    standardHeaders: true,
+})
+
 app.use(cookieParser());
 
 app.use(cors(CORS_CONFIG));
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(serveStatic(path.join(__dirname, 'public')))
+// app.use(serveStatic(path.join(__dirname, 'public')))
 
 app.use(urlencoded({ extended: true }))
-app.use(json())
+app.use(json({ limit: '10mb' }))
+app.use(limiter);
 
 app.use(routes)
 app.use(errors())
