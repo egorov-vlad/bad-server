@@ -1,6 +1,7 @@
 import { CookieOptions } from 'express'
 import { CorsOptions } from 'cors';
 import ms from 'ms'
+import 'dotenv/config'
 
 export const { PORT = '3000' } = process.env
 export const { DB_ADDRESS = 'mongodb://127.0.0.1:27017/weblarek' } = process.env
@@ -26,3 +27,14 @@ export const REFRESH_TOKEN = {
 export const ORIGIN_ALLOW = process.env.ORIGIN_ALLOW || 'http://localhost:3000';
 
 export const CORS_CONFIG = { origin: ORIGIN_ALLOW, credentials: true } as CorsOptions;
+
+export const CSRF_CONFIG = {
+    getSecret: () => process.env.CSRF_SECRET || 'secret-dev',
+    cookieName: '__WebLarek.x-csrf-token',
+    cookieOptions: {
+        // httpOnly: true,
+        sameSite: 'strict',
+        secure: false,
+        path: '/',
+    } as CookieOptions
+};

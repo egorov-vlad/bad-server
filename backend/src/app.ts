@@ -12,7 +12,7 @@ import routes from './routes'
 
 const app = express()
 
-app.use(cookieParser())
+app.use(cookieParser());
 
 app.use(cors(CORS_CONFIG));
 // app.use(express.static(path.join(__dirname, 'public')));
@@ -28,7 +28,7 @@ app.use(errorHandler)
 
 const bootstrap = async () => {
     try {
-        await mongoose.connect(DB_ADDRESS)
+        await mongoose.connect(DB_ADDRESS);
         app.listen(PORT, () => console.log('ok'))
     } catch (error) {
         console.error(error)
