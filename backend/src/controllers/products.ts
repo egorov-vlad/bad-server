@@ -18,7 +18,7 @@ const getProducts = async (req: Request, res: Response, next: NextFunction) => {
         const { page = 1, limit = 5 } = req.query
         const newLimit = limitPagination(Number(limit), 10)
         const options = {
-            skip: (Number(page) - 1) * Number(limit),
+            skip: (Number(page) - 1) * newLimit,
             limit: newLimit,
         }
         const products = await Product.find({}, null, options)

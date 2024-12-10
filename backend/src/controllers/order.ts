@@ -119,7 +119,7 @@ export const getOrders = async (
 
         aggregatePipeline.push(
             { $sort: sort },
-            { $skip: (Number(page) - 1) * Number(limit) },
+            { $skip: (Number(page) - 1) * newLimit },
             { $limit: newLimit },
             {
                 $group: {
@@ -162,7 +162,7 @@ export const getOrdersCurrentUser = async (
         const { search, page = 1, limit = 5 } = req.query
         const newLimit = limitPagination(Number(limit), 10)
         const options = {
-            skip: (Number(page) - 1) * Number(limit),
+            skip: (Number(page) - 1) * newLimit,
             limit: newLimit,
         }
 
