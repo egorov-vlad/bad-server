@@ -17,7 +17,7 @@ import { doubleCsrfProtection } from '../middlewares/csrf-handler'
 const orderRouter = Router()
 
 orderRouter.post('/', auth, validateOrderBody, sanitizeMiddleware, createOrder)
-orderRouter.get('/all', auth, getOrders)
+orderRouter.get('/all', auth, roleGuardMiddleware(Role.Admin), getOrders)
 orderRouter.get('/all/me', auth, getOrdersCurrentUser)
 orderRouter.get(
     '/:orderNumber',
