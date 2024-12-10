@@ -12,7 +12,7 @@ export const uploadFile = async (
         return next(new BadRequestError('Файл не загружен'))
     }
     try {
-        const fileName = `/${UPLOAD_PATH}/${crypto.randomUUID().slice(0, 8)}. ${req.file.mimetype.split('/')[1]}`;
+        const fileName = `/${UPLOAD_PATH}/${crypto.randomUUID().slice(0, 8)}.${req.file.mimetype.split('/')[1]}`;
         return res.status(constants.HTTP_STATUS_CREATED).send({
             fileName,
             originalName: req.file?.originalname,
