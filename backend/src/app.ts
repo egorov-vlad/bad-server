@@ -5,6 +5,7 @@ import cors from 'cors'
 import express, { json, urlencoded } from 'express'
 import mongoose from 'mongoose'
 import { rateLimit } from 'express-rate-limit';
+import mongoSanitizer from 'express-mongo-sanitize'
 import path from 'path'
 import { DB_ADDRESS, CORS_CONFIG, PORT } from './config'
 import errorHandler from './middlewares/error-handler'
@@ -15,7 +16,7 @@ const app = express()
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 40,  
+    max: 40,
     message: 'Too many requests from this IP, please try again after 15 minutes',
     standardHeaders: true,
 })
@@ -30,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(urlencoded({ extended: true }))
 app.use(json({ limit: '10mb' }))
 app.use(limiter);
-
+app.use(mongoSanitizer());
 app.use(routes)
 app.use(errors())
 app.use(errorHandler)

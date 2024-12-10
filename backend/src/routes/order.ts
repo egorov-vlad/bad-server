@@ -9,7 +9,7 @@ import {
     updateOrder,
 } from '../controllers/order'
 import auth, { roleGuardMiddleware } from '../middlewares/auth'
-import { validateOrderBody } from '../middlewares/validations'
+import { validateGetOrdersQuery, validateOrderBody } from '../middlewares/validations'
 import { Role } from '../models/user'
 import { sanitizeMiddleware } from '../middlewares/sanitize'
 import { doubleCsrfProtection } from '../middlewares/csrf-handler'
@@ -17,7 +17,7 @@ import { doubleCsrfProtection } from '../middlewares/csrf-handler'
 const orderRouter = Router()
 
 orderRouter.post('/', auth, validateOrderBody, sanitizeMiddleware, createOrder)
-orderRouter.get('/all', auth, roleGuardMiddleware(Role.Admin), getOrders)
+orderRouter.get('/all', auth, validateGetOrdersQuery, roleGuardMiddleware(Role.Admin), getOrders)
 orderRouter.get('/all/me', auth, getOrdersCurrentUser)
 orderRouter.get(
     '/:orderNumber',

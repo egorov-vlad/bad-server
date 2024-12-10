@@ -9,7 +9,7 @@ import limitPagination from '../utils/limitPagination'
 
 // eslint-disable-next-line max-len
 // GET /orders?page=2&limit=5&sort=totalAmount&order=desc&orderDateFrom=2024-07-01&orderDateTo=2024-08-01&status=delivering&totalAmountFrom=100&totalAmountTo=1000&search=%2B1
-
+        
 export const getOrders = async (
     req: Request,
     res: Response,
@@ -33,7 +33,8 @@ export const getOrders = async (
 
         if (status) {
             if (typeof status === 'object') {
-                Object.assign(filters, status)
+                // Object.assign(filters, status)
+                return next(new BadRequestError('Status должен быть строкой'))
             }
             if (typeof status === 'string') {
                 filters.status = status
