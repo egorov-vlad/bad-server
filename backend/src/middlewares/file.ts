@@ -1,7 +1,7 @@
 import { Request, Express } from 'express'
 import multer, { FileFilterCallback } from 'multer'
 import { join } from 'path'
-import { UPLOAD_PATH_TEMP } from '../config'
+import { MAX_UPLOAD_FILE_SIZE, UPLOAD_PATH_TEMP } from '../config'
 
 type DestinationCallback = (error: Error | null, destination: string) => void
 type FileNameCallback = (error: Error | null, filename: string) => void
@@ -37,9 +37,6 @@ const types = [
     'image/svg+xml',
 ]
 
-const minSize = 1024 * 2;// 2Kb
-const maxSize = 1024 * 1024 * 5; // 5Mb
-
 const fileFilter = (
     _req: Request,
     file: Express.Multer.File,
@@ -49,16 +46,7 @@ const fileFilter = (
         return cb(null, false)
     }
 
-    if (file.size < minSize) {
-        return cb(null, false)
-    }
-    if (file.size > maxSize) {
-        return cb(null, false)
-    }
-
     return cb(null, true)
 }
 
-export default multer({
-    storage, fileFilter
-})
+export default multer({ storage, fileFilter, limits: { fileSize: MAX_UPLOAD_FILE_SIZE } })

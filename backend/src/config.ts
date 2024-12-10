@@ -40,3 +40,6 @@ export const CSRF_CONFIG = {
 };
 
 export const { UPLOAD_PATH_TEMP = 'temp', UPLOAD_PATH = 'uploads' } = process.env;
+
+export const MAX_UPLOAD_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+export const MIN_UPLOAD_FILE_SIZE = 2 * 1024; // 2Kb
