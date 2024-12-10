@@ -37,6 +37,9 @@ const types = [
     'image/svg+xml',
 ]
 
+const minSize = 1024 * 2;// 2Kb
+const maxSize = 1024 * 1024 * 5; // 5Mb
+
 const fileFilter = (
     _req: Request,
     file: Express.Multer.File,
@@ -46,9 +49,16 @@ const fileFilter = (
         return cb(null, false)
     }
 
+    if (file.size < minSize) {
+        return cb(null, false)
+    }
+    if (file.size > maxSize) {
+        return cb(null, false)
+    }
+
     return cb(null, true)
 }
 
-const fileSize = 1024 * 1024 * 2;
-
-export default multer({ storage, fileFilter, limits: { fileSize } })
+export default multer({
+    storage, fileFilter
+})
